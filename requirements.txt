@@ -1,0 +1,13 @@
+# django with dependencies
+Django
+gunicorn
+
+# django-REST-API
+# djangorestframework
+# django-filter
+# markdown
+# drf-spectacular
+
+# cache
+# redis
+# hiredis

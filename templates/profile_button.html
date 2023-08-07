@@ -1,0 +1,28 @@
+{% if request.user.is_authenticated %}
+    <div class="dropdown profile-button">
+        <button type="button" aria-expanded="false" data-bs-toggle="dropdown" class="btn btn-outline-secondary dropdown-toggle w-100">
+            <i class="fa-solid fa-user"></i>
+            <span id="navbar_user">{{ request.user|truncatechars:"30" }}</span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+                {% if request.user.is_staff %}
+                    <a class="dropdown-item" href="{% url 'admin:index' %}">
+                        <i class="fa-solid fa-hammer"></i> Admin
+                    </a>
+                {% endif %}
+            </li>
+            <li>
+                <a class="dropdown-item" href="{% url 'logout' %}">
+                    <i class="fa-solid fa-right-from-bracket"></i> Ausloggen
+                </a>
+            </li>
+        </ul>
+    </div>
+{% else %}
+    <div class="btn-group">
+        <a class="btn btn-primary ws-nowrap" type="button" href="{% url 'login' %}?next={{ request.path }}">
+            <i class="fa-solid fa-right-to-bracket"></i> Log In
+        </a>
+    </div>
+{% endif %}

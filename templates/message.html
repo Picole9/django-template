@@ -1,0 +1,11 @@
+<div class="toast-container position-fixed right-0 end-0 p-3">
+    {% for message in messages %}
+        <div class="django-message show align-items-center bg-{{ message.tags }}-subtle border-{{ message.tags }}-subtle" data-django-type="message" role="alert" aria-live="assertlive" aria-atomic="true" data-bs-delay="10000">
+            <div class="d-flex">
+                <div class="toast-body">
+                    {{ message }}
+                </div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>            </div>
+        </div>
+    {% endfor %}
+</div>
