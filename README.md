@@ -8,12 +8,16 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', appname.view, name="viewname"),
-    path('oe', appname.view, name="viewname"),
+    path('', views.view, name="viewname"),
 ]
 ```
 * django/urls.py add `path('appname/', include('appname.urls')),`
-* Beispiel-html:
+* appname/views.py
+```
+def view(request):
+    return render(request, "appname/appname.html")
+```
+* templates/appname/appname.html:
 ```
 {% extends "base.html" %}
 
@@ -26,12 +30,12 @@ appname
 {% endblock %}
 ```
 
-## Setup
+## run server
 * python packages: `python3 install -r requirements.txt`
-* load data: `py manage.py loaddata data.json`
+* load initial data after generating data.json: `py manage.py loaddata data.json`
 * run server: `py manage.py runserver`
 
-## Development
+## css/sass
 * `sudo apt install npm nodejs`
 * `npm install`
-* Styling: `npm run sass`
+* `npm run sass`

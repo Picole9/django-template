@@ -31,14 +31,14 @@ except ModuleNotFoundError as e:
         )
     raise
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
+# is-docker-container for communication with redis and forwarding with nginx
+if 'DOCKER' in dict(os.environ):
+    DOCKER = os.environ.get('DOCKER') == "true"
+else:
+    DOCKER = getattr(configuration, 'DOCKER', False)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = getattr(configuration, 'SECRET_KEY', '')
-
-# is-docker-container for communication with redis
-DOCKER_CACHE = getattr(configuration, 'DOCKER_CACHE', False)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = getattr(configuration, 'DEBUG', True)
@@ -85,12 +85,20 @@ TEMPLATES = [
     },
 ]
 
+# static
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
-
 STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_URL = 'static/'
+
+# media
 MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_URL = 'media/'
+
+# urls
+LOGIN_URL = "/login"
+LOGOUT_REDIRECT_URL = "/"
 
 WSGI_APPLICATION = 'web.wsgi.application'
 
@@ -134,18 +142,10 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
-
-MEDIA_URL = 'media/'
-STATIC_URL = 'static/'
-LOGIN_URL = "/login"
-LOGOUT_REDIRECT_URL = "/"
-
 # Cache-System
 # https://docs.djangoproject.com/en/4.2/topics/cache/#redis
-if DOCKER_CACHE:
+if DOCKER:
+    USE_X_FORWARDED_HOST = True
     CACHES = {
         'default': {
             'BACKEND': 'django.core.cache.backends.redis.RedisCache',
@@ -171,4 +171,30 @@ MESSAGE_TAGS = {
     messages.SUCCESS: 'success',
     messages.WARNING: 'warning',
     messages.ERROR: 'danger',
+}
+
+# Proxy if needed for requests
+PROXY = getattr(configuration, 'PROXY', None)
+
+# Logging during DEBUG
+if DEBUG:
+    LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "WARNING",
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": os.getenv("DJANGO_LOG_LEVEL", "INFO"),
+            "propagate": False,
+        },
+    },
 }

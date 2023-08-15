@@ -1,5 +1,5 @@
 # is docker container
-DOCKER_CACHE = False
+DOCKER = False
 
 # django-debug-mode, dont use this in production!
 DEBUG = True
@@ -17,3 +17,6 @@ CSRF_TRUSTED_ORIGINS = ['http://localhost']
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 LANGUAGE_CODE = 'de-DE'
 TIME_ZONE = 'CET'
+
+# Proxy
+PROXY = None
