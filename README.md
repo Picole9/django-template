@@ -1,7 +1,7 @@
 # django-template
 
 ## Neue App
-* `django-admin startproject {appname}`
+* `django-admin startapp {appname}`
 * appname/urls.py
 ```
 from django.urls import path
