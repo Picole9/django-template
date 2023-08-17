@@ -1,0 +1,16 @@
+<form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+        {% for field in form %}
+            <div class="col-md-3 my-auto">
+                <fieldset class="form-group">
+                    <label class="form-label" for="{{ field.auto_id }}">{{ field.help_text }}</label>
+                    {{ field }}
+                    {# <div class="form-text">{{ field.label }}</div> #}
+                </fieldset>
+            </div>
+        {% endfor %}
+    </div>
+    <div align="center">
+        <input type="submit" class="btn btn-primary">
+    </div>
+</form>
